@@ -12,8 +12,9 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/NSEvent.h>
 
-#define DEBOUNCE_DELAY 100
+#define DEBOUNCE_DELAY 200
 #define SYNTHETIC_KB_ID 666
+#define TARGET_KB_ID 46 // voice mini
 
 typedef CFMachPortRef EventTap;
 
@@ -85,6 +86,7 @@ CGEventRef _tapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef even
   long long keyboard_id = CGEventGetIntegerValueField(cgEvent, kCGKeyboardEventKeyboardType);
 
   if (keyboard_id != SYNTHETIC_KB_ID &&
+      keyboard_id == TARGET_KB_ID &&
       currentKeycode == lastKeycode &&
       ![event isARepeat] &&
       (currentKeytime - lastKeytime) < DEBOUNCE_DELAY) {
